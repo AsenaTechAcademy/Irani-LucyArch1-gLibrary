@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+    <h1>Members Management Page</h1>
+    <h:link value="Back to Home" outcome="index.xhtml" /> <br/> <br/> <br/>
+
+
+
+    <h:form>
+
+        <h:panelGrid columns="2">
+
+            <p:outputLabel for="mno" value="Member NO:  " />
+            <p:inputText id="mno" value="#{memberMB.member.mno}"/>
+
+            <p:outputLabel for="mellicode" value="Melli Code: " />
+            <p:inputText id="mellicode" value="#{memberMB.member.mellino}"/>
+
+            <p:outputLabel for="Name" value="Name: " />
+            <p:inputText id="Name" value="#{memberMB.member.name}"/>
+
+            <p:outputLabel for="Family" value="Family: " />
+            <p:inputText id="Family" value="#{memberMB.member.family}"/>
+
+            <p:outputLabel for="Email" value="Email: " />
+            <p:inputText id="Email" value="#{memberMB.member.email}"/>
+
+            <p:outputLabel for="Mobile" value="Mobile: " />
+            <p:inputText id="Mobile" value="#{memberMB.member.mobile}"/>
+
+            <p:outputLabel for="memtype" value="Member Type: "/>
+            <p:selectOneRadio id="memtype" value="#{memberMB.memtypeid}">
+                <f:selectItems id="items" value="#{memberMB.allMembertypes}" var="mt" itemValue="#{mt.id}" itemLabel="#{mt.title}" />
+            </p:selectOneRadio>
+
+        </h:panelGrid>
+
+        <p:spacer height="10" width="50"/>
+        <p:commandButton value="ثبت یا ویرایش" type="submit" action="#{memberMB.save}" ajax="false"/>
+    </h:form>
+
+    <br/><br/>
+
+
+
+    <h:form>
+        <h:dataTable value="#{memberMB.allMembers}" var="bb">
+
+            <h:column>
+                <f:facet name="header">Mem NO</f:facet>
+                #{bb.mno}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Melli NO</f:facet>
+                #{bb.mellino}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                #{bb.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Family</f:facet>
+                #{bb.family}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Email</f:facet>
+                #{bb.email}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Mobile</f:facet>
+                #{bb.mobile}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Penalty</f:facet>
+                #{bb.allpenalty}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">MemType</f:facet>
+                #{bb.membertype.title}
+            </h:column>
+
+
+
+
+            <h:column><h:commandButton value="delete" action="#{memberMB.delete(bb)}" /></h:column>
+
+        </h:dataTable>
+    </h:form>
+
+
+
+
+</f:view>
+</html>

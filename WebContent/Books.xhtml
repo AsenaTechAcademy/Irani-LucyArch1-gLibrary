@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+    <h1>Books Management Page</h1>
+    <h:link value="Back to Home" outcome="index.xhtml" /> <br/> <br/> <br/>
+
+
+    <h:form>
+
+        <h:panelGrid columns="2">
+
+            <p:outputLabel for="bno" value="Book NO:  " />
+            <p:inputText id="bno" value="#{bookMB.book.bno}"/>
+
+            <p:outputLabel for="title" value="Book title: " />
+            <p:inputText id="title" value="#{bookMB.book.title}"/>
+
+            <p:outputLabel for="author" value="Book author: " />
+            <p:inputText id="author" value="#{bookMB.book.author}"/>
+
+            <p:outputLabel for="isbn" value="Book ISBN: " />
+            <p:inputText id="isbn" value="#{bookMB.book.isbn}"/>
+
+            <p:outputLabel for="pages" value="Book pages: " />
+            <p:inputText id="pages" value="#{bookMB.book.pages}"/>
+
+            <p:outputLabel for="isref" value="Is Ref: "/>
+            <p:selectOneRadio id="isref" value="#{bookMB.book.isreference}" effect="fold" editable="false">
+                <f:selectItem itemLabel="بله" itemValue="true" />
+                <f:selectItem itemLabel="خیر" itemValue="false" />
+            </p:selectOneRadio>
+
+
+        </h:panelGrid>
+
+        <p:spacer height="10" width="50"/>
+        <p:commandButton value="ثبت یا ویرایش" type="submit" action="#{bookMB.save}"/>
+    </h:form>
+
+    <br/><br/>
+
+    <h:form>
+        <h:dataTable value="#{bookMB.allBooks}" var="bb">
+
+            <h:column>
+                <f:facet name="header">Book NO</f:facet>
+                #{bb.bno}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Title</f:facet>
+                #{bb.title}
+            </h:column>
+            <h:column>
+                <f:facet name="header">author</f:facet>
+                #{bb.author}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">ISBN</f:facet>
+                #{bb.isbn}
+            </h:column>
+            <h:column>
+                <f:facet name="header">pages</f:facet>
+                #{bb.pages}
+            </h:column>
+            <h:column>
+                <f:facet name="header">isRef</f:facet>
+                #{bb.isreference}
+            </h:column>
+
+            <h:column><h:commandButton value="delete" action="#{bookMB.delete(bb)}" /></h:column>
+
+        </h:dataTable>
+    </h:form>
+
+
+
+
+</f:view>
+</html>

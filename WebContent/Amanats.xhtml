@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+
+    <h1>Amanats Page</h1>
+    <h:link value="Back to Home" outcome="index.xhtml" /> <br/> <br/> <br/>
+
+
+    <h:form>
+
+        #{amanatMB.errmsg}
+        <br/>
+
+        <h:panelGrid columns="2">
+
+            <p:outputLabel for="books" value="انتخاب کتاب: "/>
+            <p:selectOneRadio id="books" value="#{amanatMB.bookid}" effect="fold" editable="false">
+                <f:selectItems id="itemsbooks" value="#{bookMB.allBooks}" var="mb" itemValue="#{mb.id}" itemLabel="#{mb.title}" />
+            </p:selectOneRadio>
+
+            <p:outputLabel for="members" value="انتخاب عضو "/>
+            <p:selectOneRadio id="members" value="#{amanatMB.memberid}" effect="fold" editable="false">
+                <f:selectItems id="itemsmembers" value="#{memberMB.allMembers}" var="mt" itemValue="#{mt.id}" itemLabel="#{mt.name}" />
+            </p:selectOneRadio>
+
+
+        </h:panelGrid>
+
+        <p:spacer height="10" width="50"/>
+        <p:commandButton value="ثبت یا ویرایش" type="submit" action="#{amanatMB.save}"/>
+    </h:form>
+
+    <br/><br/>
+
+
+
+</f:view>
+</html>
