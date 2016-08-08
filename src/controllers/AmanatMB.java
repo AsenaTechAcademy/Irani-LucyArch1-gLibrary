@@ -3,7 +3,9 @@ package controllers;
 import common.model.Amanat;
 import service.AmanatService;
 import service.AmanatServiceImpl;
+import service.ServiceManager;
 
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import java.util.List;
@@ -17,7 +19,15 @@ public class AmanatMB
     Amanat amanat =new Amanat();
     AmanatService as=new AmanatServiceImpl();
 
+    
+    @PreDestroy
+    public void CleanUp()
+    {
+    	ServiceManager.CleanEntityManagers();
+    }
 
+    
+    
     private String bookid;
     private String memberid;
 

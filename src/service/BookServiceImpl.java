@@ -1,8 +1,5 @@
 package service;
 
-
-import javax.persistence.EntityManager;
-
 import common.model.Book;
 import dao.BookDAO;
 import dao.emFactory;
@@ -11,22 +8,16 @@ import java.util.List;
 
 public class BookServiceImpl implements BookService
 {
-    EntityManager em;
     // define all DAOs HERE
-    BookDAO bookDAO;
+    BookDAO bookDAO=new BookDAO();
 
-    public BookServiceImpl()
-    {
-        em=(new emFactory().getEntityManager());
-        bookDAO=new BookDAO();
-    }
 
 
 	//-------------------------------------------------------------   Add Book
     @Override
 	public Book Add(Book t) throws Exception
 	{
-        em.getTransaction().begin();
+    	emFactory.getEntityManager().getTransaction().begin();
         try
         {
             // Add New Book Business Logic should be HERE
@@ -35,15 +26,15 @@ public class BookServiceImpl implements BookService
 
 
 
-            Book b=bookDAO.Insert(t,em);
+            Book b=bookDAO.Insert(t);
 
 
-            em.getTransaction().commit();
+            emFactory.getEntityManager().getTransaction().commit();
             return b;
         }
         catch (Exception ex)
         {
-            em.getTransaction().rollback();
+        	emFactory.getEntityManager().getTransaction().rollback();
             throw new Exception("Œÿ« œ— À»  œ«œÂ Â«");
         }
 	}
@@ -52,16 +43,16 @@ public class BookServiceImpl implements BookService
     @Override
     public void Remove(Book t)
 	{
-        em.getTransaction().begin();
+    	emFactory.getEntityManager().getTransaction().begin();
 
 
         // Remove any Book Business Logic should be HERE
 
 
-        bookDAO.Delete(t,em);
+        bookDAO.Delete(t);
 
 
-        em.getTransaction().commit();
+        emFactory.getEntityManager().getTransaction().commit();
     }
 
 
@@ -69,16 +60,16 @@ public class BookServiceImpl implements BookService
     @Override
     public Book Edit(Book t)
 	{
-        em.getTransaction().begin();
+    	emFactory.getEntityManager().getTransaction().begin();
 
 
         // Edit Book Business Logic should be HERE
 
 
-        Book b=bookDAO.Update(t,em);
+        Book b=bookDAO.Update(t);
 
 
-        em.getTransaction().commit();
+        emFactory.getEntityManager().getTransaction().commit();
         return b;
 
     }
@@ -88,12 +79,7 @@ public class BookServiceImpl implements BookService
     @Override
     public List<Book> GetAll()
 	{
-        em.getTransaction().begin();
-
-        List<Book> x= bookDAO.SelectAll(em);
-
-        em.getTransaction().commit();
-        return x;
+        return bookDAO.SelectAll();
     }
 	
 }

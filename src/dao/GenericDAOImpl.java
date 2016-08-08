@@ -33,61 +33,61 @@ public abstract class GenericDAOImpl<T,PK extends Serializable> implements Gener
     }
     
     
-    public T Insert(T t, EntityManager entityManager)
+    public T Insert(T t)
     {
-        entityManager.persist(t);
-		entityManager.flush();
+        emFactory.getEntityManager().persist(t);
+        emFactory.getEntityManager().flush();
         return t;
     }
     
-    public T Update(T t, EntityManager entityManager)
+    public T Update(T t)
 	{
-	    return entityManager.merge(t);
+	    return emFactory.getEntityManager().merge(t);
 	}
 	
-	public void Delete(T t, EntityManager entityManager)
+	public void Delete(T t)
 	{
-	    t = entityManager.merge(t);
-	    entityManager.remove(t);
+	    t = emFactory.getEntityManager().merge(t);
+	    emFactory.getEntityManager().remove(t);
 	}
 
 
-	public T SelectById(PK id, EntityManager entityManager)
+	public T SelectById(PK id)
 	{
-	    return entityManager.find(classtype, id);
+	    return emFactory.getEntityManager().find(classtype, id);
 	}
     
 	@SuppressWarnings("unchecked")
-	public List<T> SelectAll(EntityManager entityManager)
+	public List<T> SelectAll()
 	{
-		Query query = entityManager.createQuery("SELECT e FROM " + ClassName + " e");
+		Query query = emFactory.getEntityManager().createQuery("SELECT e FROM " + ClassName + " e");
 	    return (List<T>) query.getResultList();
 	}
 	
-	public int SelectCount(EntityManager entityManager)
+	public int SelectCount()
 	{
-		Query query = entityManager.createQuery("SELECT COUNT(e) FROM " + ClassName + " e");
+		Query query = emFactory.getEntityManager().createQuery("SELECT COUNT(e) FROM " + ClassName + " e");
 	    return Integer.parseInt(query.getSingleResult().toString());
 	}
 
-	public void Insert(List<T> ts,EntityManager entityManager)
+	public void Insert(List<T> ts)
 	{
 		for(T t:ts)
-			this.Insert(t,entityManager);
+			this.Insert(t);
 	}
 
 
-	public void Update(List<T> ts,EntityManager entityManager)
+	public void Update(List<T> ts)
 	{
 		for(T t:ts)
-			this.Update(t,entityManager);
+			this.Update(t);
 	}
  
 
-	public void Delete(List<T> ts,EntityManager entityManager)
+	public void Delete(List<T> ts)
 	{
 		for(T t:ts)
-			this.Delete(t,entityManager);
+			this.Delete(t);
 	}
     
 }

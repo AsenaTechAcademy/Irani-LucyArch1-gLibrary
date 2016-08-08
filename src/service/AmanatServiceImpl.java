@@ -1,8 +1,6 @@
 package service;
 
 
-import javax.persistence.EntityManager;
-
 import common.model.Amanat;
 import common.model.Book;
 import common.model.Member;
@@ -18,36 +16,25 @@ import java.util.List;
  */
 public class AmanatServiceImpl implements AmanatService
 {
-    EntityManager em;
     // define all DAOs HERE
-    BookDAO bookDAO;
-    MemberDAO memberDAO;
-    AmanatDAO amanatDAO;
-
-    public AmanatServiceImpl()
-    {
-        em=(new emFactory().getEntityManager());
-        bookDAO=new BookDAO();
-        memberDAO=new MemberDAO();
-        amanatDAO=new AmanatDAO();
-    }
-
+    BookDAO bookDAO=new BookDAO();
+    MemberDAO memberDAO=new MemberDAO();
+    AmanatDAO amanatDAO=new AmanatDAO();
 
 
 
     public Amanat AddNewAmanat(Amanat amanat, int bookID, int memberID) throws Exception
     {
-        em.getTransaction().begin();
+    	emFactory.getEntityManager().getTransaction().begin();
 
         try {
 
-
             //Add Amanat Business Logic
-            Book book = bookDAO.SelectById(bookID, em);
-            Member member = memberDAO.SelectById(memberID, em);
+            Book book = bookDAO.SelectById(bookID);
+            Member member = memberDAO.SelectById(memberID);
 
             //Logic 0: is Book in Amanat
-            if (bookDAO.isBookinAmanat(book,em))
+            if (bookDAO.isBookinAmanat(book))
                 throw new Exception("کتاب موجود نمی باشد و امانت است");
 
             // Logic 1: Book should not be reference
@@ -59,19 +46,18 @@ public class AmanatServiceImpl implements AmanatService
                 throw new Exception("عضو جریمه دارد و نمی تواند کتاب امانت بگیرد");
 
 
-
             amanat.setBook(book);
             amanat.setMember(member);
             //amanat.setDate2(currentDate + member.getMembertype().getMaxdays());
             //amanat.setDate1(currentDate);
 
-            amanatDAO.Insert(amanat,em);
+            amanatDAO.Insert(amanat);
 
-            em.getTransaction().commit();
+            emFactory.getEntityManager().getTransaction().commit();
         }
         catch (Exception ex)
         {
-        	em.getTransaction().rollback();
+        	emFactory.getEntityManager().getTransaction().rollback();
             throw new Exception(ex.getMessage());
         }
 
@@ -81,6 +67,6 @@ public class AmanatServiceImpl implements AmanatService
 
     public List<Amanat> GetAllAmanat()
     {
-        return amanatDAO.SelectAll(em);
+        return amanatDAO.SelectAll();
     }
 }

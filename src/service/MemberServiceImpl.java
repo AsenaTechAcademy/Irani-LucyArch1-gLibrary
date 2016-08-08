@@ -1,8 +1,5 @@
 package service;
 
-
-import javax.persistence.EntityManager;
-
 import common.model.Member;
 import common.model.Membertype;
 import dao.MemberDAO;
@@ -14,77 +11,70 @@ import java.util.List;
 
 public class MemberServiceImpl implements MemberService
 {
-	EntityManager em;
 	// define all DAOs HERE
-    MemberDAO memberDAO;
-    MembertypeDAO membertypeDAO;
+    MemberDAO memberDAO=new MemberDAO();
+    MembertypeDAO membertypeDAO=new MembertypeDAO();
 
-	public MemberServiceImpl()
-	{
-		em=(new emFactory().getEntityManager());
-		memberDAO=new MemberDAO();
-        membertypeDAO=new MembertypeDAO();
-	}
 
 
 	public Member Add(Member t)
 	{
-        em.getTransaction().begin();
+		emFactory.getEntityManager().getTransaction().begin();
 
         // Add New Book Business Logic should be HERE
 
-        Member m=memberDAO.Insert(t,em);
+        Member m=memberDAO.Insert(t);
 
-        em.getTransaction().commit();
+        emFactory.getEntityManager().getTransaction().commit();
 		return m;
     }
 
     public Member Add(Member m,int memtypeid)
     {
-        em.getTransaction().begin();
+    	emFactory.getEntityManager().getTransaction().begin();
 
 
         // Add New Book Business Logic should be HERE
 
         m.setAllpenalty(0);
         m.setTasviyedate(null);
-        m.setMembertype(membertypeDAO.SelectById(memtypeid,em));
+        m.setMembertype(membertypeDAO.SelectById(memtypeid));
 
-        m=memberDAO.Insert(m,em);
+        m=memberDAO.Insert(m);
 
-        em.getTransaction().commit();
+        emFactory.getEntityManager().getTransaction().commit();
         return m;
     }
 
     public void Remove(Member t)
 	{
-        em.getTransaction().begin();
+    	emFactory.getEntityManager().getTransaction().begin();
 
         // Remove any Book Business Logic should be HERE
 
-		memberDAO.Delete(t,em);
-        em.getTransaction().commit();
+		memberDAO.Delete(t);
+		emFactory.getEntityManager().getTransaction().commit();
     }
 
 	public Member Edit(Member t)
 	{
-        em.getTransaction().begin();
+		emFactory.getEntityManager().getTransaction().begin();
 
         // Edit Book Business Logic should be HERE
 		
-		Member m=memberDAO.Update(t,em);
-        em.getTransaction().commit();
+		Member m=memberDAO.Update(t);
+		emFactory.getEntityManager().getTransaction().commit();
         return m;
 	}
 
 	public List<Member> GetAll()
 	{
-		return memberDAO.SelectAll(em);
+		return memberDAO.SelectAll();
 	}
 
     public List<Membertype> GetAllMembertypes()
     {
-        return membertypeDAO.SelectAll(em);
+        return membertypeDAO.SelectAll();
     }
 
 }
